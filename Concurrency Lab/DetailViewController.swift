@@ -21,9 +21,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        nameLabel.text = country.name
-        capitalLabel.text = country.capital
-        populationLabel.text = country.population.description
+        nameLabel.text = "Name: \(country.name)"
+        capitalLabel.text = "Capital: \(country.capital)"
+        populationLabel.text = "Population: \(country.population)"
     }
     
 

@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     private func tableViewConfigurations() {
         countryTableView.dataSource = self
         countryTableView.delegate = self
-        countryTableView.rowHeight = 80
+        countryTableView.rowHeight = 85
         countryTableView.tableFooterView = UIView()
     }
 
