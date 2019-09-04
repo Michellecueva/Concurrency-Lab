@@ -10,14 +10,31 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var countries = [Country]()
-
-
+    @IBOutlet weak var countrySearchBar: UISearchBar!
     @IBOutlet weak var countryTableView: UITableView!
+    
+    var countries = [Country]()
+    
+    var filteredCountries: [Country] {
+        get {
+            guard let searchString = searchString else { return countries }
+            
+            guard searchString != "" else { return countries}
+            
+            return Country.getFilteredResults(arr: countries, searchText: searchString)
+        }
+    }
+    
+    var searchString: String? = nil {
+        didSet {
+            self.countryTableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableViewConfigurations()
+        configureSearchBar()
         loadData()
         
     }
@@ -29,6 +46,10 @@ class ViewController: UIViewController {
         countryTableView.tableFooterView = UIView()
     }
 
+    func configureSearchBar() {
+        countrySearchBar.delegate = self
+    }
+    
     func loadData() {
         CountryAPI.shared.fetchDataForAnyURL(url: "https://restcountries.eu/rest/v2/name/united")  { (result) in
                 switch result {
@@ -50,11 +71,11 @@ class ViewController: UIViewController {
 }
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        return filteredCountries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let country = countries[indexPath.row]
+        let country = filteredCountries[indexPath.row]
         if let cell = countryTableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath) as? CountriesTableViewCell {
             cell.nameLabel.text = "Name: \(country.name)"
             cell.capitalLabel.text = "Capital: \(country.capital)"
@@ -72,7 +93,7 @@ extension ViewController: UITableViewDataSource {
             guard let DetailVC = segue.destination as? DetailViewController else {fatalError("unexpected segueVC")}
             guard let selectedIndexPath = countryTableView.indexPathForSelectedRow else{fatalError("no row selected")}
             
-            let country = countries[selectedIndexPath.row]
+            let country = filteredCountries[selectedIndexPath.row]
             
             DetailVC.country = country
         default:
@@ -83,6 +104,10 @@ extension ViewController: UITableViewDataSource {
     
 }
 
-extension ViewController: UITableViewDelegate {
-    
+extension ViewController: UITableViewDelegate {}
+
+extension ViewController: UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchString = searchText
+    }
 }

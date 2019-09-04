@@ -28,6 +28,10 @@ struct Country: Codable {
         }
     }
     
-    
+    static func getFilteredResults(arr: [Country], searchText: String) -> [Country] {
+        var currentFilter: [Country]
+        currentFilter = arr.filter{$0.name.lowercased().contains(searchText.lowercased())}
+        return currentFilter
+    }
     
 }

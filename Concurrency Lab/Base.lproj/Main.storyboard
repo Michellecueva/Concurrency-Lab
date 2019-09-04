@@ -89,6 +89,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="UIJ-mM-woR"/>
                     <connections>
+                        <outlet property="countrySearchBar" destination="hbz-SV-yXD" id="tX9-K4-PRn"/>
                         <outlet property="countryTableView" destination="6zk-CQ-H54" id="bmc-SW-fxG"/>
                     </connections>
                 </viewController>
