@@ -11,8 +11,6 @@ import UIKit
 class CountriesTableViewCell: UITableViewCell {
     
     
-    @IBOutlet weak var countryImageView: UIImageView!
-    
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var capitalLabel: UILabel!
